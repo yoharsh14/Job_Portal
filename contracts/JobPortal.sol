@@ -15,6 +15,21 @@ contract JobPortal {
     event ApplicantAppliedToJob();
     event JobAdded();
     //State variable
+    Struct Applicant{
+        uint256 id;
+        string name;
+        uint256 experience;
+        string skills;
+    }
+    Struct Job{
+        uint256 id;
+        string jobTitle;
+        string skills;
+    }
+    mapping(uint256=>Applicant) applicants;
+    mapping(uint256=>Job) jobs;
+    mapping(uint256=>uint256[]) applied;
+    mapping(uint256=>uint256) ratings;
     address private immutable i_owner;
     //Constructor
     constructor () public {
@@ -22,6 +37,7 @@ contract JobPortal {
     }
     // Modifire
     modifier Admin() {
+        require(msg.sender==i_owner,"You are not the Admin");
         _;
     }
 
